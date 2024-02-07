@@ -4,6 +4,7 @@ import styles_file from "../../styles/styles";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import PickImage from "./pickImage";
+import { addBook } from "../../../../redux/actionCreators";
 
 // ======= mapStateToProps ==================//
 const mapStateToProps = (state) => {
@@ -13,12 +14,12 @@ const mapStateToProps = (state) => {
     };
 };
 
-// ============= send data to redux actionCreators =================//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         addAccount: (email, acc_name) => dispatch(addAccount(email, acc_name)),
-//     };
-// };
+//=============== dispatchToProps ======================//
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addBook: (book) => dispatch(addBook(book)),
+    };
+};
 
 // ===================== function start =======================//
 
@@ -30,13 +31,21 @@ const AddBookModal = (props) => {
 
     // ================ handle Submit ========================//
     const handleSubmit = () => {
-        // if (bookTitle == "") {
-        //     Alert.alert("Please enter the Name of the Account ");
-        // } else if (props.user_email == null) {
-        //     Alert.alert("Please Login first ");
-        // } else {
-        //     props.addAccount(props.user_email, textInputValue);
-        // }
+        if (props.isAuth == false) {
+            alert("Please Login First");
+        } else if (bookTitle == "" || bookAuthor == "" || image == "") {
+            alert("Please Fill all the fields");
+        } else {
+            book = {
+                uploader: props.name_of_user,
+                bookTitle: bookTitle,
+                image: image,
+                bookAuthor: bookAuthor,
+                bookDescription: bookDescription,
+                bookCategory: "default",
+            };
+            props.addBook(book);
+        }
     };
 
     //console.log(props.user_email);
@@ -104,4 +113,4 @@ const AddBookModal = (props) => {
     );
 };
 
-export default connect(mapStateToProps)(AddBookModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AddBookModal);

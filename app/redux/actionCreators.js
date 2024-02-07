@@ -99,3 +99,32 @@ const dataBase_Credentials_SignUp = (email, name) => {
             });
     };
 };
+
+// ========================== Add new Book =============================//
+export const addBook = (book) => {
+    // console.log(place);
+    // auto state ashe reducer theke, variable(ekhane getState) e store korte hy
+    return (dispatch, getState) => {
+        let token = getState().token;
+        // places table e store
+        // link/uri , additional data
+        fetch(
+            `https://book-review-app-react-native-default-rtdb.asia-southeast1.firebasedatabase.app/Books.json?auth=${token}`,
+            {
+                method: "POST",
+                body: JSON.stringify(book),
+            }
+        )
+            .catch((error) => alert(error))
+            // error na hole
+            .then((response) => {
+                alert("Book Added");
+                //response.json();
+            })
+            .then((data) => {
+                // load places  after add
+                //dispatch(loadPlaces());
+                console.log("check data leak addBook\n");
+            });
+    };
+};
