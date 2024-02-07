@@ -51,16 +51,16 @@ const styles_file = StyleSheet.create({
     },
 
     // ======================== AddNewEntries.js extra ======================//
-    centeredViewForNewEntries: {
+    centeredViewForNewBook: {
         flex: 1,
         // justifyContent: "center",
-        alignItems: "center",
+        // alignItems: "center",
         margin: 10,
         marginTop: 15,
         backgroundColor: "white",
         borderWidth: 4,
         borderRadius: 25,
-        padding: 15,
+        padding: 5,
     },
     input: {
         width: "100%",
