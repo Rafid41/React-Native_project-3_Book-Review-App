@@ -9,10 +9,8 @@ import {
     TouchableOpacity,
 } from "react-native";
 import styles_file from "../styles/styles";
-// import AddAccountsModal from "./AddAccountsModal";
-// import ListOfAccounts from "./ListOfAccounts";
-// import { loadAccounts } from "../redux/actionCreators";
 import { connect } from "react-redux";
+import AddBookModal from "./AddBook/AddBookModal";
 
 // ============================= stateToProps =======================//
 const mapStateToProps = (state) => {
@@ -55,7 +53,7 @@ const Home = (props) => {
                     fontWeight: "bold",
                 }}
             >
-                {props.name_of_user}
+                Books
             </Text>
             {/* <ListOfAccounts account_List={props.account_List} /> */}
             {/* =========== modal =============== */}
@@ -69,16 +67,16 @@ const Home = (props) => {
                     setModalVisible(!modalVisible);
                 }}
             >
-                {/* <AddAccountsModal /> */}
+                <AddBookModal />
                 <Pressable
                     style={{
-                        ...styles_file.addAccoundButton,
+                        ...styles_file.actionButton,
                         backgroundColor: "red",
                         minWidth: 100,
                     }}
                     onPress={() => {
                         setModalVisible(false);
-                        load_acc_List();
+                        // load_acc_List();
                     }}
                 >
                     <Text style={styles_file.button_text}>close</Text>
@@ -90,7 +88,9 @@ const Home = (props) => {
                 style={styles_file.actionButton}
                 onPress={() => setModalVisible(true)}
             >
-                <Text style={styles_file.button_text}>Add New Account</Text>
+                <Text style={styles_file.button_text}>
+                    Add New Book to Review
+                </Text>
             </Pressable>
         </View>
     );
