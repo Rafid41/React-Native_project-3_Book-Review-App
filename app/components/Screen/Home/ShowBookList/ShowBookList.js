@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image,
 } from "react-native";
+import { navigate } from "../../../Navigation/Navigation_all_helper";
 
 const ShowBookList = (props) => {
     return (
@@ -32,6 +33,13 @@ const ShowBookList = (props) => {
                                         : "white",
                                 },
                             ]}
+                            onPress={() => {
+                                // send params
+                                //  key of that category name
+                                navigate("Book Details", {
+                                    book: item,
+                                });
+                            }}
                         >
                             <View style={styles.itemContent}>
                                 <Image

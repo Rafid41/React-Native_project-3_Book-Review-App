@@ -46,7 +46,7 @@ const AddBookModal = (props) => {
                 image: image.trim(),
                 bookAuthor: bookAuthor.trim(),
                 bookDescription: bookDescription.trim(),
-                bookCategory: "default",
+                bookCategory: "Default",
             };
             props.addBook(book);
         }

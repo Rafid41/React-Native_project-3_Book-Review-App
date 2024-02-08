@@ -217,7 +217,7 @@ export const getSortedCategories = () => {
                     }
                     return 0;
                 });
-
+                // console.log(filteredData);
                 dispatch(getSortedCategories_helper(filteredData));
             });
     };
