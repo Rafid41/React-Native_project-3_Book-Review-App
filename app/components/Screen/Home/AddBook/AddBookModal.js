@@ -33,15 +33,19 @@ const AddBookModal = (props) => {
     const handleSubmit = () => {
         if (props.isAuth == false) {
             alert("Please Login First");
-        } else if (bookTitle == "" || bookAuthor == "" || image == "") {
+        } else if (
+            bookTitle.trim() === "" ||
+            bookAuthor.trim() === "" ||
+            image.trim() === ""
+        ) {
             alert("Please Fill all the fields");
         } else {
             book = {
                 uploader: props.name_of_user,
-                bookTitle: bookTitle,
-                image: image,
-                bookAuthor: bookAuthor,
-                bookDescription: bookDescription,
+                bookTitle: bookTitle.trim(),
+                image: image.trim(),
+                bookAuthor: bookAuthor.trim(),
+                bookDescription: bookDescription.trim(),
                 bookCategory: "default",
             };
             props.addBook(book);

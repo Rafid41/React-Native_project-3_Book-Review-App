@@ -1,4 +1,4 @@
-// app\screens\HomeScreen.js
+// app\components\Screen\Home\Home.js
 import React, { useState, useEffect } from "react";
 import {
     View,
@@ -54,10 +54,12 @@ const Home = (props) => {
                     textAlign: "center",
                     fontSize: 22,
                     fontWeight: "bold",
+                    marginBottom: 5,
                 }}
             >
-                {props.sorted_bookList.length}
+                Books
             </Text>
+            <ShowBookList sorted_bookList={props.sorted_bookList} />
             {/* <ListOfAccounts account_List={props.account_List} /> */}
             {/* =========== modal =============== */}
             <Modal
@@ -79,7 +81,8 @@ const Home = (props) => {
                     }}
                     onPress={() => {
                         setModalVisible(false);
-                        // load_acc_List();
+                        // reload on modal close
+                        props.getAllBooksSortedByTitle();
                     }}
                 >
                     <Text style={styles_file.button_text}>close</Text>
