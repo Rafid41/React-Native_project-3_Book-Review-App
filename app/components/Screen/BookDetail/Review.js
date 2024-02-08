@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { AddReview } from "../../../redux/actionCreators";
+import { getReviews } from "../../../redux/actionCreators";
 
 // ============================= stateToProps =======================//
 const mapStateToProps = (state) => {
     return {
         isAuth: state.isAuth,
         name_of_user: state.name_of_user,
+        reviewList: state.reviewList,
     };
 };
 
@@ -16,12 +18,13 @@ const mapDispatchToProps = (dispatch) => {
     return {
         AddReview: (review, name_of_user, bookId) =>
             dispatch(AddReview(review, name_of_user, bookId)),
+        getReviews: (bookId) => dispatch(getReviews(bookId)),
     };
 };
-
+// ========================= main ==========================//
 const Review = (props) => {
     const [review, setReview] = useState("");
-    const [reviewsList, setReviewsList] = useState([]);
+    // const [reviewsList, setReviewsList] = useState([]);
 
     const handleAddReview = () => {
         if (review.trim() === "") {
@@ -33,7 +36,13 @@ const Review = (props) => {
         }
         // setReviewsList((prevReviews) => [...prevReviews, review]);
         setReview("");
+        // props.getReviews(props.book.id);
     };
+
+    // ========================= useEffect =========================//
+    useEffect(() => {
+        props.getReviews(props.book.id);
+    });
 
     return (
         <View style={styles.container}>
@@ -51,12 +60,21 @@ const Review = (props) => {
                 </Pressable>
             </View>
             <View style={styles.reviewsContainer}>
-                {reviewsList.map((review, index) => (
-                    <View key={index} style={styles.reviewItem}>
+                {props.reviewList.map((review, index) => (
+                    <View
+                        key={index}
+                        style={{
+                            ...styles.reviewItem,
+                            borderBottomColor:
+                                index < props.reviewList.length - 1
+                                    ? "transparent"
+                                    : "black",
+                        }}
+                    >
                         <Text style={styles.reviewerName}>
-                            Reviewer {index + 1}:
+                            {review.name_of_user}:
                         </Text>
-                        <Text style={styles.reviewText}>{review}</Text>
+                        <Text style={styles.reviewText}>{review.review}</Text>
                     </View>
                 ))}
             </View>
@@ -101,11 +119,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     reviewItem: {
-        marginBottom: 10,
+        padding: 15,
+        borderWidth: 1,
     },
     reviewerName: {
         fontWeight: "bold",
         marginBottom: 5,
+        color: "blue",
     },
     reviewText: {
         marginLeft: 15,

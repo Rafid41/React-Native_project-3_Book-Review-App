@@ -244,6 +244,7 @@ export const AddReview = (review, name_of_user, bookId) => {
                     bookId: bookId,
                     name_of_user: name_of_user,
                     review: review,
+                    dateTime: new Date().getTime(),
                 }),
             }
         )
@@ -254,5 +255,41 @@ export const AddReview = (review, name_of_user, bookId) => {
                 alert("Review Added");
                 console.log("check data leak AddReview\n");
             });
+    };
+};
+
+// ============================= fetch Review =============================//
+export const getReviews = (bookId) => {
+    return (dispatch, getState) => {
+        let token = getState().token;
+
+        fetch(
+            `https://book-review-app-react-native-default-rtdb.asia-southeast1.firebasedatabase.app/Reviews.json?orderBy="bookId"&equalTo="${bookId}"&orderBy="dateTime"&auth=${token}`
+        )
+            .catch((err) => {
+                alert("something went wrong, sorry");
+                console.log(err);
+            })
+            .then((res) => res.json())
+            .then((data_from_firebase) => {
+                let reviewList = [];
+                for (let key in data_from_firebase) {
+                    reviewList.push({
+                        bookId: data_from_firebase[key].bookId,
+                        dateTime: data_from_firebase[key].dateTime,
+                        name_of_user: data_from_firebase[key].name_of_user,
+                        review: data_from_firebase[key].review,
+                    });
+                }
+                dispatch(getReviews_helper(reviewList));
+            });
+    };
+};
+
+//  invoke reducer
+export const getReviews_helper = (reviewList) => {
+    return {
+        type: actionTypes.GET_REVIEWS,
+        payload: reviewList,
     };
 };

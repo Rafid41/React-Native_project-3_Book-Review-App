@@ -9,6 +9,7 @@ const initState = {
     name_of_user: null,
     sorted_bookList: [],
     sorted_categoryList: [],
+    reviewList: [],
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -30,6 +31,12 @@ export const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 sorted_categoryList: action.payload,
+            };
+
+        case actionTypes.GET_REVIEWS:
+            return {
+                ...state,
+                reviewList: action.payload,
             };
 
         default:
