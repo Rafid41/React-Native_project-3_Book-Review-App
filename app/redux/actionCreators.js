@@ -37,6 +37,9 @@ export const tryAuth =
                         dispatch(dataBase_Credentials_SignUp(email, name));
                         dispatch(tryAuth_helper(data.idToken, email, name));
 
+                        // initially call getAllBooksSortedByTitle
+                        // dispatch(getAllBooksSortedByTitle());
+
                         navigate("Home");
                     }
                     // ======================== for login =============================//
@@ -59,6 +62,8 @@ export const tryAuth =
                                     tryAuth_helper(data.idToken, email, name)
                                 );
 
+                                // initially call getAllBooksSortedByTitle
+                                // dispatch(getAllBooksSortedByTitle());
                                 navigate("Home");
                             });
                     }
@@ -126,5 +131,56 @@ export const addBook = (book) => {
                 //dispatch(loadPlaces());
                 console.log("check data leak addBook\n");
             });
+    };
+};
+
+// ============================== get all books ==========================//
+export const getAllBooksSortedByTitle = () => {
+    return (dispatch, getState) => {
+        let token = getState().token;
+
+        fetch(
+            `https://book-review-app-react-native-default-rtdb.asia-southeast1.firebasedatabase.app/Books.json?auth=${token}`,
+            {
+                method: "GET",
+            }
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch books");
+                }
+                return response.json();
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error("Error fetching books:", error);
+            })
+            .then((data) => {
+                // data will contain all the books
+                // Convert the data object into an array
+                const booksArray = Object.keys(data).map((key) => ({
+                    id: key,
+                    ...data[key],
+                }));
+
+                // Sort the array of books by title
+                const sortedBooks = booksArray.sort((a, b) => {
+                    const titleA = a.bookTitle.toLowerCase();
+                    const titleB = b.bookTitle.toLowerCase();
+                    if (titleA < titleB) return -1;
+                    if (titleA > titleB) return 1;
+                    return 0;
+                });
+
+                dispatch(getAllBooksSortedByTitle_helper(sortedBooks));
+            });
+    };
+};
+
+//  invoke reducer
+export const getAllBooksSortedByTitle_helper = (sortedBooks) => {
+    return {
+        type: actionTypes.GET_ALL_BOOKS,
+        payload: sortedBooks,
     };
 };

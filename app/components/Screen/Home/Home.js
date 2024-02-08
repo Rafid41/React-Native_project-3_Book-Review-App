@@ -11,21 +11,24 @@ import {
 import styles_file from "../styles/styles";
 import { connect } from "react-redux";
 import AddBookModal from "./AddBook/AddBookModal";
+import ShowBookList from "./ShowBookList/ShowBookList";
+import { getAllBooksSortedByTitle } from "../../../redux/actionCreators";
 
 // ============================= stateToProps =======================//
 const mapStateToProps = (state) => {
     return {
         user_email: state.user_email,
         name_of_user: state.name_of_user,
+        sorted_bookList: state.sorted_bookList,
     };
 };
 
 //=============== dispatchToProps ======================//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         loadAccounts: (email) => dispatch(loadAccounts(email)),
-//     };
-// };
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllBooksSortedByTitle: () => dispatch(getAllBooksSortedByTitle()),
+    };
+};
 
 // ========================== HomeScreen ==========================//
 const Home = (props) => {
@@ -39,9 +42,9 @@ const Home = (props) => {
 
     //========================= useEffect ========================//
     // useEffect() kaj korena, Auth er time e loadAccounts() call/dispatch kora hoise, actionCreators.js theke
-    // useEffect(() => {
-    //     load_acc_List();
-    // }, []);
+    useEffect(() => {
+        props.getAllBooksSortedByTitle();
+    }, []);
 
     // =====================================  return =======================//
     return (
@@ -53,7 +56,7 @@ const Home = (props) => {
                     fontWeight: "bold",
                 }}
             >
-                Books
+                {props.sorted_bookList.length}
             </Text>
             {/* <ListOfAccounts account_List={props.account_List} /> */}
             {/* =========== modal =============== */}
@@ -96,4 +99,4 @@ const Home = (props) => {
     );
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

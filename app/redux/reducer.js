@@ -7,6 +7,7 @@ const initState = {
     token: null,
     user_email: null,
     name_of_user: null,
+    sorted_bookList: [],
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -18,6 +19,11 @@ export const rootReducer = (state = initState, action) => {
                 token: action.payload.token,
                 user_email: action.payload.email,
                 name_of_user: action.payload.name,
+            };
+        case actionTypes.GET_ALL_BOOKS:
+            return {
+                ...state,
+                sorted_bookList: action.payload,
             };
 
         default:
