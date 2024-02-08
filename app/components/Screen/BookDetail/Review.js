@@ -1,32 +1,37 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { connect } from "react-redux";
+import { AddReview } from "../../../redux/actionCreators";
 
 // ============================= stateToProps =======================//
 const mapStateToProps = (state) => {
     return {
-        user_email: state.user_email,
+        isAuth: state.isAuth,
         name_of_user: state.name_of_user,
-        sorted_bookList: state.sorted_bookList,
     };
 };
 
 //=============== dispatchToProps ======================//
 const mapDispatchToProps = (dispatch) => {
     return {
-        // getAllBooksSortedByTitle: () => dispatch(getAllBooksSortedByTitle()),
+        AddReview: (review, name_of_user, bookId) =>
+            dispatch(AddReview(review, name_of_user, bookId)),
     };
 };
 
-const Review = () => {
+const Review = (props) => {
     const [review, setReview] = useState("");
     const [reviewsList, setReviewsList] = useState([]);
 
     const handleAddReview = () => {
         if (review.trim() === "") {
-            return;
+            alert("Review input box can't be empty");
+        } else if (props.isAuth == false) {
+            alert("Please Sign in first");
+        } else {
+            props.AddReview(review, props.name_of_user, props.book.id);
         }
-        setReviewsList((prevReviews) => [...prevReviews, review]);
+        // setReviewsList((prevReviews) => [...prevReviews, review]);
         setReview("");
     };
 

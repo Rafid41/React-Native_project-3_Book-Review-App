@@ -230,3 +230,29 @@ export const getSortedCategories_helper = (sortedCategory) => {
         payload: sortedCategory,
     };
 };
+
+// ============================= Add Review =======================//
+export const AddReview = (review, name_of_user, bookId) => {
+    return (dispatch, getState) => {
+        let token = getState().token;
+
+        fetch(
+            `https://book-review-app-react-native-default-rtdb.asia-southeast1.firebasedatabase.app/Reviews.json?auth=${token}`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    bookId: bookId,
+                    name_of_user: name_of_user,
+                    review: review,
+                }),
+            }
+        )
+            .catch((error) => alert(error))
+            // error na hole
+            .then((response) => response.json())
+            .then((data) => {
+                alert("Review Added");
+                console.log("check data leak AddReview\n");
+            });
+    };
+};

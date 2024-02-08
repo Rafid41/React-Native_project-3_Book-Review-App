@@ -34,6 +34,7 @@ import Review from "./Review";
 const BookDetail = ({ route }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { book } = route.params;
+    // console.log(book);
 
     return (
         <View>
@@ -54,7 +55,7 @@ const BookDetail = ({ route }) => {
                     </View>
                 </View>
                 <View style={styles.separator}></View>
-                <Review />
+                <Review book={book} />
             </ScrollView>
         </View>
     );
