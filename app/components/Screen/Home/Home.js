@@ -34,14 +34,6 @@ const mapDispatchToProps = (dispatch) => {
 const Home = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
-    // load Acc list
-    // const load_acc_List = () => {
-    //     console.log(props.user_email);
-    //     props.loadAccounts(props.user_email);
-    // };
-
-    //========================= useEffect ========================//
-    // useEffect() kaj korena, Auth er time e loadAccounts() call/dispatch kora hoise, actionCreators.js theke
     useEffect(() => {
         props.getAllBooksSortedByTitle();
     }, []);
@@ -60,7 +52,7 @@ const Home = (props) => {
                 Books
             </Text>
             <ShowBookList sorted_bookList={props.sorted_bookList} />
-            {/* <ListOfAccounts account_List={props.account_List} /> */}
+
             {/* =========== modal =============== */}
             <Modal
                 style={styles_file.modal}

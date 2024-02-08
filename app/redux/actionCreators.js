@@ -158,6 +158,7 @@ export const getAllBooksSortedByTitle = () => {
             .then((data) => {
                 // data will contain all the books
                 // Convert the data object into an array
+
                 const booksArray = Object.keys(data).map((key) => ({
                     id: key,
                     ...data[key],
@@ -182,5 +183,50 @@ export const getAllBooksSortedByTitle_helper = (sortedBooks) => {
     return {
         type: actionTypes.GET_ALL_BOOKS,
         payload: sortedBooks,
+    };
+};
+
+// ========================== get Categories  =========================//
+export const getSortedCategories = () => {
+    return (dispatch, getState) => {
+        let token = getState().token;
+
+        fetch(
+            `https://book-review-app-react-native-default-rtdb.asia-southeast1.firebasedatabase.app/Categories.json?auth=${token}`
+        )
+            .catch((err) => {
+                alert("something went wrong, sorry");
+                console.log(err);
+            })
+            .then((res) => res.json())
+            .then((data_from_firebase) => {
+                console.log("check data leak==> getSortedCategory\n");
+                // console.log(data_from_firebase);
+                const filteredData = data_from_firebase.filter(
+                    (item) => item !== null
+                );
+                // sort
+                filteredData.sort((a, b) => {
+                    const categoryA = a.category_name.toUpperCase();
+                    const categoryB = b.category_name.toUpperCase();
+                    if (categoryA < categoryB) {
+                        return -1;
+                    }
+                    if (categoryA > categoryB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                dispatch(getSortedCategories_helper(filteredData));
+            });
+    };
+};
+
+//  invoke reducer
+export const getSortedCategories_helper = (sortedCategory) => {
+    return {
+        type: actionTypes.GET_SORTED_CATEGORY,
+        payload: sortedCategory,
     };
 };

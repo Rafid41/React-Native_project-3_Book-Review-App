@@ -5,6 +5,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../Screen/Home/Home";
 import Auth from "../Auth/Auth";
+import Categories from "../Screen/Categories/Categories";
+import BookDetail from "../Screen/BookDetail/BookDetail";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,8 +19,17 @@ const AppNavigator = () => {
         <Drawer.Navigator
             initialRouteName="Home"
             // hides Navbar
-            //screenOptions={{ headerShown: false }}
+            screenOptions={{
+                // headerShown: false,
+                drawerStyle: {
+                    backgroundColor: "#b0edff",
+                    width: 240,
+                },
+            }}
         >
+            <Drawer.Screen name="Home" component={Home} />
+            <Drawer.Screen name="Categories" component={Categories} />
+
             <Drawer.Screen
                 name="Auth"
                 component={Auth}
@@ -28,16 +39,16 @@ const AppNavigator = () => {
                     drawerLabel: "Logout",
                 }}
             />
-            <Drawer.Screen name="Home" component={Home} />
-            {/* <Drawer.Screen
-                name="Categories"
-                component={Categories}
+            {/* Hidden navigation */}
+            <Drawer.Screen
+                name="Book Details"
+                component={BookDetail}
                 options={{
                     drawerLabel: () => null,
                     // hides it from sliding window
                     drawerItemStyle: { display: "none" },
                 }}
-            /> */}
+            />
         </Drawer.Navigator>
     );
 };

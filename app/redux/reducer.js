@@ -8,6 +8,7 @@ const initState = {
     user_email: null,
     name_of_user: null,
     sorted_bookList: [],
+    sorted_categoryList: [],
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -24,6 +25,11 @@ export const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 sorted_bookList: action.payload,
+            };
+        case actionTypes.GET_SORTED_CATEGORY:
+            return {
+                ...state,
+                sorted_categoryList: action.payload,
             };
 
         default:
