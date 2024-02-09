@@ -7,6 +7,7 @@ import Home from "../Screen/Home/Home";
 import Auth from "../Auth/Auth";
 import Categories from "../Screen/Categories/Categories";
 import BookDetail from "../Screen/BookDetail/BookDetail";
+import Category_details from "../Screen/Categories/Category_details";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -43,6 +44,15 @@ const AppNavigator = () => {
             <Drawer.Screen
                 name="Book Details"
                 component={BookDetail}
+                options={{
+                    drawerLabel: () => null,
+                    // hides it from sliding window
+                    drawerItemStyle: { display: "none" },
+                }}
+            />
+            <Drawer.Screen
+                name="Category Details"
+                component={Category_details}
                 options={{
                     drawerLabel: () => null,
                     // hides it from sliding window

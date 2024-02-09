@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+// app\components\Screen\Categories\Category_details.js
+import React from "react";
 import {
     FlatList,
     View,
@@ -6,46 +7,32 @@ import {
     StyleSheet,
     Pressable,
     TouchableOpacity,
+    Image,
 } from "react-native";
-import { getSortedCategories } from "../../../redux/actionCreators";
-import { connect } from "react-redux";
 import { navigate } from "../../Navigation/Navigation_all_helper";
 
-// ============================= stateToProps =======================//
-const mapStateToProps = (state) => {
-    return {
-        sorted_categoryList: state.sorted_categoryList,
-        sorted_bookList: state.sorted_bookList,
-    };
-};
-
-// //=============== dispatchToProps ======================//
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         getSortedCategories: () => dispatch(getSortedCategories()),
-//     };
-// };
-// ================ main ===========================//
-const Categories = (props) => {
-    // useEffect(() => {
-    //     props.getSortedCategories();
-    // }, []);
-
+const Category_details = ({ route }) => {
+    const { sorted_bookList, category } = route.params;
+    //console.log(category);
+    // Filter the sorted_bookList based on category
+    const filteredBooks = sorted_bookList.filter(
+        (book) => book.bookCategory === category
+    );
     return (
         <View style={styles.container}>
             <Text
                 style={{
                     textAlign: "center",
-                    fontSize: 22,
+                    fontSize: 19,
                     fontWeight: "bold",
                     marginBottom: 5,
                 }}
             >
-                Categories
+                Category: {category}
             </Text>
             <FlatList
                 style={styles.flatList}
-                data={props.sorted_categoryList}
+                data={filteredBooks}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity>
@@ -54,8 +41,7 @@ const Categories = (props) => {
                                 styles.itemContainer,
                                 {
                                     borderBottomColor:
-                                        index <
-                                        props.sorted_categoryList.length - 1
+                                        index < filteredBooks.length - 1
                                             ? "transparent"
                                             : "black",
                                     opacity: pressed ? 0.5 : 1,
@@ -65,15 +51,22 @@ const Categories = (props) => {
                                 },
                             ]}
                             onPress={() => {
-                                navigate("Category Details", {
-                                    sorted_bookList: props.sorted_bookList,
-                                    category: item.category_name,
+                                // send params
+                                //  key of that category name
+                                navigate("Book Details", {
+                                    book: item,
                                 });
                             }}
                         >
-                            <Text style={styles.itemText}>
-                                {item.category_name}
-                            </Text>
+                            <View style={styles.itemContent}>
+                                <Image
+                                    source={{ uri: item.image }}
+                                    style={styles.image}
+                                />
+                                <Text style={styles.itemText}>
+                                    {item.bookTitle}
+                                </Text>
+                            </View>
                         </Pressable>
                     </TouchableOpacity>
                 )}
@@ -85,7 +78,7 @@ const Categories = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 35,
+        margin: 15,
     },
     flatList: {
         paddingVertical: 25, // Padding top and bottom
@@ -112,4 +105,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(mapStateToProps, null)(Categories);
+export default Category_details;
