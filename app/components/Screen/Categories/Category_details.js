@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     },
     itemContent: {
         flexDirection: "row",
-        alignItems: "center", // Align items vertically
+        alignItems: "center",
     },
     image: {
         width: 50,
