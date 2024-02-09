@@ -12,7 +12,10 @@ import styles_file from "../styles/styles";
 import { connect } from "react-redux";
 import AddBookModal from "./AddBook/AddBookModal";
 import ShowBookList from "./ShowBookList/ShowBookList";
-import { getAllBooksSortedByTitle } from "../../../redux/actionCreators";
+import {
+    getAllBooksSortedByTitle,
+    getSortedCategories,
+} from "../../../redux/actionCreators";
 
 // ============================= stateToProps =======================//
 const mapStateToProps = (state) => {
@@ -27,6 +30,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllBooksSortedByTitle: () => dispatch(getAllBooksSortedByTitle()),
+        getSortedCategories: () => dispatch(getSortedCategories()),
     };
 };
 
@@ -36,6 +40,8 @@ const Home = (props) => {
 
     useEffect(() => {
         props.getAllBooksSortedByTitle();
+        // load first from home
+        props.getSortedCategories();
     }, []);
 
     // =====================================  return =======================//

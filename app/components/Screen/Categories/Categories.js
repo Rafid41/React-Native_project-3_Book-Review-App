@@ -17,17 +17,17 @@ const mapStateToProps = (state) => {
     };
 };
 
-//=============== dispatchToProps ======================//
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getSortedCategories: () => dispatch(getSortedCategories()),
-    };
-};
+// //=============== dispatchToProps ======================//
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         getSortedCategories: () => dispatch(getSortedCategories()),
+//     };
+// };
 // ================ main ===========================//
 const Categories = (props) => {
-    useEffect(() => {
-        props.getSortedCategories();
-    }, []);
+    // useEffect(() => {
+    //     props.getSortedCategories();
+    // }, []);
 
     return (
         <View style={styles.container}>
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default connect(mapStateToProps, null)(Categories);

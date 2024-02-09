@@ -49,6 +49,10 @@ const BookDetail = ({ route }) => {
                                 {book.bookAuthor}
                             </Text>
                         </Text>
+
+                        <Text style={{ marginBottom: 5 }}>
+                            Category: {book.bookCategory}
+                        </Text>
                         <Text style={styles.description}>
                             {book.bookDescription}
                         </Text>
